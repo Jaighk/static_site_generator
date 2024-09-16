@@ -22,17 +22,17 @@ class TestTextNode(unittest.TestCase):
         node2 = TextNode("This is also a text node", "bold")
         self.assertNotEqual(node, node2)
 
-    def url_eq(self):
+    def test_url_eq(self):
         node = TextNode("This is a text node", "bold", "https://www.boot.dev")
         node2 = TextNode("This is a text node", "bold", "https://www.boot.dev")
         self.assertEqual(node, node2)
 
-    def url_uneq(self):
+    def test_url_uneq(self):
         node = TextNode("This is a text node", "bold", "https://www.boot.dev")
         node2 = TextNode("This is a text node", "bold", "https://www.google.com")
         self.assertNotEqual(node, node2)
 
-    def url_uneq_none(self):
+    def test_url_uneq_none(self):
         node = TextNode("This is a text node", "bold", "https://www.boot.dev")
         node2 = TextNode("This is a text node", "bold")
         self.assertNotEqual(node, node2)
