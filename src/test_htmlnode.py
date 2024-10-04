@@ -1,11 +1,10 @@
 import unittest
 
-from htmlnode import HTMLNode
+from htmlnode import *
 
 class TestHTMLNode(unittest.TestCase):
     def test_print(self):
         node = HTMLNode(tag="a", value="A Link", props={"href": "https://www.google.com", "target": "_blank",})
-        print(node)
         self.assertIsInstance(node, HTMLNode)
     
     def test_props_to_html(self):
@@ -26,3 +25,15 @@ class TestHTMLNode(unittest.TestCase):
         self.assertIsNone(node.value)
         self.assertIsNone(node.children)
         self.assertIsNone(node.props)
+
+class TestLeafNode(unittest.TestCase):
+    def test_LeafNode_a(self):
+        node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        self.assertEqual(node.to_html(), "<a href=\"https://www.google.com\">Click me!</a>")
+    
+    def test_LeafNode_print(self):
+        node = LeafNode("a", "Click me!", {"href": "https://www.google.com"})
+        self.assertIsInstance(node, LeafNode)
+
+if __name__ == "__main__": 
+    unittest.main()
