@@ -45,5 +45,33 @@ class Test_example(unittest.TestCase):
             ]
          )
 
+    def test_extract_images(self):
+        text = "This is text with a ![rick roll](https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+        self.assertEqual(extract_markdown_images(text), [("rick roll", "https://i.imgur.com/aKaOqIh.gif"), ("obi wan", "https://i.imgur.com/fJRm4Vk.jpeg")])
+        
+    def test_extract_images_unmatched_alt_text(self):
+        with self.assertRaises(ValueError):
+            text = "This is text with a ![rick roll] and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+            extract_markdown_images(text)
+
+    def test_extract_images_unmatched_url_text(self):
+        with self.assertRaises(ValueError):
+            text = "This is text with a (https://i.imgur.com/aKaOqIh.gif) and ![obi wan](https://i.imgur.com/fJRm4Vk.jpeg)"
+            extract_markdown_images(text)
+
+    def text_extract_links(self):
+        text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+        self.assertEqual(extract_mardown_links(text), [("to boot dev", "https://www.boot.dev"), ("to youtube", "https://www.youtube.com/@bootdotdev")])
+
+    def test_extract_links_unmatched_url(self):
+        with self.assertRaises(ValueError):
+            text = "This is text with a link (https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
+            extract_markdown_images(text)
+
+    def test_extract_links_unmatched_link_text(self):
+        with self.assertRaises(ValueError):
+            text = "This is text with a link [to boot dev] and [to youtube](https://www.youtube.com/@bootdotdev)"
+            extract_markdown_images(text)
+
 if __name__ == "__main__":
     unittest.main()
