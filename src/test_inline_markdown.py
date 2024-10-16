@@ -1,6 +1,6 @@
 import unittest
 
-from inline_markdown import *
+from markdown import *
 
 class Tests(unittest.TestCase):
     def test_split_node_code(self):

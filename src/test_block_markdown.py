@@ -1,5 +1,5 @@
 import unittest
-from block_markdown import *
+from markdown import *
 
 class Tests(unittest.TestCase):
     def test_example_expected(self):
