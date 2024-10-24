@@ -17,13 +17,7 @@ class HTMLNode():
         return html_string
     
     def __repr__(self):
-        return f'''
-        HTMLNode:
-            \ttag: {self.tag}
-            \tvalue: {self.value}
-            \tchildren: {self.children}
-            \tprops: {self.props}
-        '''
+        return f"HTMLNode({self.tag}, {self.value}, {self.children}, {self.props})"
 
 class LeafNode(HTMLNode):
     def __init__(self, tag, value, props=None):

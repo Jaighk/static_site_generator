@@ -2,10 +2,10 @@ import re
 from textnode import *
 
 def text_to_text_nodes(text: str) -> list:
-    new_nodes = [TextNode(text, TextType.TEXT)]
-    new_nodes = split_nodes_delimiter(new_nodes, "**", TextType.BOLD)
-    new_nodes = split_nodes_delimiter(new_nodes, "*", TextType.ITALIC)
-    new_nodes = split_nodes_delimiter(new_nodes, "`", TextType.CODE)
+    new_nodes = [TextNode(text, TextType.TEXT.value)]
+    new_nodes = split_nodes_delimiter(new_nodes, "**", TextType.BOLD.value)
+    new_nodes = split_nodes_delimiter(new_nodes, "*", TextType.ITALIC.value)
+    new_nodes = split_nodes_delimiter(new_nodes, "`", TextType.CODE.value)
     new_nodes = split_nodes_image(new_nodes)
     new_nodes = split_nodes_link(new_nodes)
     return new_nodes
@@ -24,7 +24,7 @@ def split_nodes_delimiter(old_nodes: list, delimiter: str, text_type: str) -> li
             if sections[i] == "":
                 continue
             if i % 2 == 0:
-                split_nodes.append(TextNode(sections[i], TextType.TEXT))
+                split_nodes.append(TextNode(sections[i], TextType.TEXT.value))
             else:
                 split_nodes.append(TextNode(sections[i], text_type))
         new_nodes.extend(split_nodes)
@@ -50,7 +50,7 @@ def split_nodes_link(old_nodes: list) -> list:
         links = extract_markdown_links(node.text)
 
         if len(links) == 0:
-            new_nodes.append(TextNode(node.text, TextType.TEXT))
+            new_nodes.append(TextNode(node.text, TextType.TEXT.value))
             continue
 
         for link in links:
@@ -58,11 +58,11 @@ def split_nodes_link(old_nodes: list) -> list:
             if len(sections) != 2:
                 raise ValueError("Invalid markdown, link section not closed.")
             if sections[0] != "":
-                new_nodes.append(TextNode(sections[0], TextType.TEXT))
-            new_nodes.append(TextNode(link[0], TextType.LINK, link[1]))
+                new_nodes.append(TextNode(sections[0], TextType.TEXT.value))
+            new_nodes.append(TextNode(link[0], TextType.LINK.value, link[1]))
             original_text = sections[1]
         if original_text !="":
-            new_nodes.append(TextNode(original_text, TextType.TEXT))
+            new_nodes.append(TextNode(original_text, TextType.TEXT.value))
     return new_nodes
 
 def split_nodes_image(old_nodes: list) -> list:
@@ -81,32 +81,15 @@ def split_nodes_image(old_nodes: list) -> list:
             if len(sections) != 2:
                 raise ValueError("Invalid markdown, image section not closed")
             if sections[0] != "":
-                new_nodes.append(TextNode(sections[0], TextType.TEXT))
+                new_nodes.append(TextNode(sections[0], TextType.TEXT.value))
             new_nodes.append(
                 TextNode(
                     image[0],
-                    TextType.IMAGE,
+                    TextType.IMAGE.value,
                     image[1],
                 )
             )
             original_text = sections[1]
         if original_text != "":
-            new_nodes.append(TextNode(original_text, TextType.TEXT))
+            new_nodes.append(TextNode(original_text, TextType.TEXT.value))
     return new_nodes
-
-def markdown_to_htmlnode(text: str):
-    # split markdown into blocks
-    text_textnodes = text_to_text_nodes(text)
-    return text_textnodes
-
-    # loop over each block
-        # determine block_type
-        # create new htmlnode from block with block_type
-        # assign proper child_nodes to the htmlnode
-
-    # make all of the new HTMLNodes children to a single parent HMTMLNode (div) return it
-
-
-if __name__ == "__main__": 
-    node = TextNode("This is text with a link [to boot dev](https://www.boot.dev).", TextType.TEXT)
-    print(f"{split_nodes_link([node]) = }")
